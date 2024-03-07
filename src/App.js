@@ -1,5 +1,6 @@
 import './App.css';
-import {Route, Routes} from "react-router-dom"
+import {Route, Routes, Navigate} from "react-router-dom"
+
 
 import Home from "./components/Home"
 
@@ -7,10 +8,9 @@ function App() {
 
   return (
   <Routes>
-    <Route path="/" element = {<Home/>}>
-      <Route path="/coin/:id" element= {<Home />} />
-    </Route>
-  </Routes>
+      <Route path="/" element={<Navigate to="/coin/bitcoin" />} />
+      <Route path="/coin/:coin" element={<Home />} />
+    </Routes>
   )
 
 }
