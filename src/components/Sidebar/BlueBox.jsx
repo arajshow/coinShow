@@ -11,7 +11,7 @@ const BlueBox = () => {
 				to be more educated and aware of your tax reports.
 			</p>
 			<img src={SidebarImg} alt="img" className="" />
-			<div className="flex rounded-lg p-4 text-black gap-2 font-semibold bg-white items-center">
+			<div className="flex rounded-lg p-4 px-6 text-black gap-3 font-semibold bg-white items-center">
 				<p>Get Started for FREE</p>
 				<FaArrowRightLong />
 			</div>

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-import GraphElement from "./GraphElement";
 import { CryptoContext } from "../context/CryptoContext";
 import BlueBox from "./Sidebar/BlueBox";
 import TrendingSection from "./Sidebar/TrendingSection";
+import Dashboard from "./Dashboard";
 
 const Home = () => {
 	const [coinData, setCoinData] = useState({});
@@ -62,10 +62,12 @@ const Home = () => {
 				</div>
 
 				{/* section 1 */}
-				<div className="w-[70%]"></div>
+				<div className="md:w-[70%] w-full">
+					<Dashboard />
+				</div>
 
 				{/* section 2 */}
-				<div className="flex flex-col md:w-[27%]">
+				<div className="md:flex md:flex-col hidden md:w-[27%] gap-4">
 					<BlueBox />
 
 					<TrendingSection coinList={trendingCoins} />
