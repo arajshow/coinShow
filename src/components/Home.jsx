@@ -68,7 +68,7 @@ const Home = () => {
 				<div className="flex flex-col md:w-[27%]">
 					<BlueBox />
 
-					<TrendingSection />
+					<TrendingSection coinList={trendingCoins} />
 				</div>
 			</div>
 		</div>
