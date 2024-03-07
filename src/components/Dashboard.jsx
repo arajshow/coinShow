@@ -3,9 +3,11 @@ import GraphSection from "./Dashboard/GraphSection";
 import { MenuList } from "../data/MenuList";
 import Performance from "./Dashboard/Performance";
 import Sentiment from "./Dashboard/Sentiment";
+import CoinDetail from "./Dashboard/CoinDetail";
+import Tokenomics from "./Dashboard/Tokenomics";
+import TeamSection from "./Dashboard/TeamSection";
 
 const Dashboard = () => {
-	const [description, setDescription] = useState("");
 	return (
 		<div className="flex flex-col gap-4">
 			<GraphSection />
@@ -24,9 +26,15 @@ const Dashboard = () => {
 				))}
 			</nav>
 
-			<Performance setDescription={setDescription} />
+			<Performance />
 
 			<Sentiment />
+
+			<CoinDetail />
+
+			<Tokenomics />
+
+			<TeamSection />
 		</div>
 	);
 };

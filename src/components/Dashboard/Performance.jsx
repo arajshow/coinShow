@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { CryptoContext } from "../../context/CryptoContext";
 import { FaInfoCircle } from "react-icons/fa";
 
-const Performance = ({ setDescription }) => {
+const Performance = () => {
 	const { coin } = useParams();
 	const [loading, setLoading] = useState(false);
 	const [coinData, setCoinData] = useState({});
@@ -17,7 +17,6 @@ const Performance = ({ setDescription }) => {
 		(async () => {
 			const data = await getCoinData(coin);
 			setCoinData(data?.data);
-			setDescription(coinData?.description);
 		})();
 		setLoading(false);
 	}, []);

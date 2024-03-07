@@ -1,41 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-import { CryptoContext } from "../context/CryptoContext";
 import BlueBox from "./Sidebar/BlueBox";
 import TrendingSection from "./Sidebar/TrendingSection";
 import Dashboard from "./Dashboard";
+import Footer from "./Footer";
 
 const Home = () => {
 	const { coin } = useParams();
-	const [loading, setLoading] = useState(false);
-	const { coinList, topCoinList, getTopCoinsData } = useContext(CryptoContext);
-
-	useEffect(() => {
-		(async () => {
-			setLoading(true);
-			try {
-				await getTopCoinsData();
-			} catch (error) {
-				console.log("useEffect error ", error);
-			}
-			setLoading(false);
-		})();
-	}, []);
-
-	if (loading) {
-		return (
-			<div className="flex items-center justify-center w-screen min-h-screen ">
-				<div className="spinner" />
-			</div>
-		);
-	}
 
 	return (
 		<div className="w-screen min-h-screen bg-backgroundColor flex flex-col font-inter">
 			<Navbar />
-			<div className="flex relative w-[96%] mx-auto md:w-11/12 items-center justify-start gap-[20px] mt-16">
+			<div className="flex relative w-[96%] mx-auto md:w-11/12 items-center lg:items-start justify-start gap-[20px] my-16">
 				{/* Cryptocurrencies >> Bitcoin */}
 				<div className="absolute top-[5%] flex mt-[10px] items-center">
 					<p className="flex text-[14px] font-inter text-slate-500 mr-2">
@@ -46,17 +24,19 @@ const Home = () => {
 				</div>
 
 				{/* section 1 */}
-				<div className="lg:w-[70%] w-full">
+				<div className="lg:w-[65%] w-full">
 					<Dashboard />
 				</div>
 
 				{/* section 2 */}
-				<div className="lg:flex lg:flex-col hidden lg:w-[27%] gap-4">
+				<div className="lg:flex lg:flex-col hidden lg:w-[30%] gap-4">
 					<BlueBox />
 
 					<TrendingSection />
 				</div>
 			</div>
+
+			<Footer />
 		</div>
 	);
 };
