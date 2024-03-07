@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GraphSection from "./Dashboard/GraphSection";
 import { MenuList } from "../data/MenuList";
 import Performance from "./Dashboard/Performance";
+import Sentiment from "./Dashboard/Sentiment";
 
 const Dashboard = () => {
 	const [description, setDescription] = useState("");
@@ -24,6 +25,8 @@ const Dashboard = () => {
 			</nav>
 
 			<Performance setDescription={setDescription} />
+
+			<Sentiment />
 		</div>
 	);
 };
