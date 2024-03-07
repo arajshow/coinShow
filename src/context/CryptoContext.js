@@ -1,124 +1,85 @@
 import { createContext, useLayoutEffect, useState } from "react";
+import { apiConnector } from "../services/apiConnector";
 
 export const CryptoContext = createContext({});
 
+function shuffle(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // Swap it with the current element
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 export const CryptoProvider = ({ children }) => {
-  const [CryptoData, setCryptoData] = useState({});
 
-  const [searchData, setSearchData] = useState({});
-  const [searchedCoin, setSearchedCoin] = useState("");
+  const [coinList, setCoinList] = useState([]);
+  const [topCoinList, setTopCoinList] = useState([]);
+  const [trendingCoins, setTrendingCoinsList] = useState([]);
 
-  const [currency, setCurrency] = useState("inr");
-  const [currencyUnit, setCurrencyUnit] = useState("inr");
+ const getCoinData = async (CoinID) => {
+    try {
 
-  const [sorting, setSorting] = useState("market_cap_desc");
-  const [sortingOption, setSortingOption] = useState("market_cap_desc");
+      const data = await apiConnector("GET", `https://api.coingecko.com/api/v3/coins/${CoinID}`)
+      console.log("coinData", data);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+      return data;
+      
+    } catch (error) {
+      console.log("getCoinData error:- ", error);
+    }
 
-  const [totalCoins, setTotalCoins] = useState(250);
-
-  const [coinData, setCoinData] = useState(null);
-
-  const setReset = () => {
-    setSearchedCoin("");
-    setCurrentPage(1);
   };
 
-  const getCoinData = async (CoinID) => {
+  const getTopCoinsData = async () => {
     try {
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${CoinID}`
-      )
-        .then((res) => res.json())
-        .then((data) => data);
 
-      setCoinData(data);
-      console.log(data);
+      let data = await apiConnector("GET", "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=true&locale=en");
+      console.log("starting data", data);
+
+      console.log("ranking data of coins" ,  data.data);
+
+      setTopCoinList(data.data);
+      setCoinList(shuffle(data.data));
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getCryptoData = async () => {
+  const getTrendingCoinsData = async () => {
+
     try {
-      setCryptoData({}); // Reset CryptoData
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${searchedCoin}&order=${sorting}&per_page=${perPage}&page=${currentPage}&sparkline=false&price_change_percentage=1h%2C%2024h%2C%207d%2C%2014d&locale=en`
-      )
-        .then((res) => res.json())
-        .then((data) => data);
 
-      setCurrencyUnit(currency);
-      setSortingOption(sorting);
+      const data = await apiConnector("GET", `https://api.coingecko.com/api/v3/search/trending`)
+      console.log("trending coin ", data.data);
 
-      let updatedTotalCoins = totalCoins; // Define updatedTotalCoins variable
-
-      // Check if totalCoins is equal to 250
-      if (totalCoins === 250) {
-        const totalCoinsResponse = await fetch(
-          `https://api.coingecko.com/api/v3/global`
-        );
-        if (totalCoinsResponse.ok) {
-          const totalCoinsData = await totalCoinsResponse.json();
-          updatedTotalCoins = totalCoinsData.data.active_cryptocurrencies;
-        } else {
-          // If the API call fails, set updatedTotalCoins to 250
-          updatedTotalCoins = 250;
-        }
-      }
-
-      setTotalCoins(updatedTotalCoins); // Update totalCoins with updatedTotalCoins
-
-      console.log(data);
-
-      setCryptoData(data);
+      // actual coin is in data.coins.item
+      const result = data?.data.coins.map( item => item?.item);
+      // console.log("trending coin ", result);
+      setTrendingCoinsList(result);
+      
     } catch (error) {
-      console.log(error);
+      console.log("getCoinData error:- ", error);
     }
+
   };
-
-  const getSearchData = async (searchText) => {
-    try {
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/search?query=${searchText}`
-      )
-        .then((res) => res.json())
-        .then((data) => data.coins);
-
-      setSearchData(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useLayoutEffect(() => {
-    getCryptoData();
-  }, [searchedCoin, currency, sorting, currentPage, perPage]);
 
   return (
     <CryptoContext.Provider
       value={{
-        CryptoData,
-        searchData,
-        currencyUnit,
-        sortingOption,
-        currentPage,
-        totalCoins,
-        perPage,
-        coinData,
-        getCoinData,
-        setCoinData,
-        getSearchData,
-        setSearchedCoin,
-        setCurrency,
-        setSorting,
-        setReset,
-        setSearchData,
-        setCurrentPage,
-        setPerPage,
+        coinList, setCoinList, topCoinList, setTopCoinList, trendingCoins, setTrendingCoinsList, getTopCoinsData, getCoinData, getTrendingCoinsData
       }}
     >
       {children}

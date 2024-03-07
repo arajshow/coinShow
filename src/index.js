@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { CryptoProvider } from './context/CryptoContext';
-import { TrendingProvider } from './context/TrendingContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
     <CryptoProvider>
-      <TrendingProvider>
-        <App />
-      </TrendingProvider>
+      <App />
     </CryptoProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
