@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 import { CryptoContext } from "../../context/CryptoContext";
+import { Link } from "react-router-dom";
 
 const TrendingSection = () => {
 	const [loading, setLoading] = useState(false);
@@ -30,7 +31,10 @@ const TrendingSection = () => {
 				if (coin.score > 2) return <></>;
 
 				return (
-					<div className="flex justify-between gap-5 p-2">
+					<Link
+						to={`/coin/${coin.id}`}
+						className="flex justify-between gap-5 p-2"
+					>
 						<div className="flex gap-2 items-center">
 							<img
 								src={coin.small}
@@ -54,7 +58,7 @@ const TrendingSection = () => {
 								coin.data.price_change_percentage_24h.usd.toFixed(2)
 							)}%`}</p>
 						</div>
-					</div>
+					</Link>
 				);
 			})}
 		</div>

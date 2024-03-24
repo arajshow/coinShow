@@ -19,7 +19,7 @@ const Performance = () => {
 			setCoinData(data?.data);
 		})();
 		setLoading(false);
-	}, []);
+	}, [coin]);
 
 	athAge =
 		currentDate.getFullYear() -

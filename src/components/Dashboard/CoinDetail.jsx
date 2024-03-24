@@ -17,7 +17,7 @@ const CoinDetail = () => {
 			setDesc(data?.data?.description?.en.split(" ").splice(0, 50).join(" "));
 		})();
 		setLoading(false);
-	}, []);
+	}, [coin]);
 
 	if (loading) {
 		return (

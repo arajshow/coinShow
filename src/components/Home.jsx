@@ -13,7 +13,7 @@ const Home = () => {
 	return (
 		<div className="w-screen min-h-screen bg-backgroundColor flex flex-col font-inter">
 			<Navbar />
-			<div className="flex relative w-[96%] mx-auto md:w-11/12 items-center lg:items-start justify-start gap-[20px] my-16">
+			<div className="flex relative w-[96%] mx-auto md:w-10/12 items-center lg:items-start justify-start gap-[20px] my-16">
 				{/* Cryptocurrencies >> Bitcoin */}
 				<div className="absolute top-[5%] flex mt-[10px] items-center">
 					<p className="flex text-[14px] font-inter text-slate-500 mr-2">
